@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+<div class="container">
+<img src="img/menu.png" alt="" id="menuIcon">
+<div class="logo">
+    <img src="img/imrantextolgo-removebg-preview.png" alt="">
+</div>
+<div class="menu-box" id="menuBox">
+
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blogs</a></li>
+        <li><a href="#">Feedback</a></li>
+    </ul>
+</div>
+</div>
+
+<!-- ................................................................................... -->
+
+<h1>GET IMAGES FROM <span id="element"></span>
+</h1>
+<form id="search-form">
+  <input type="text" id="search-box">
+  <button>search</button>
+</form>
+<div id="search-result"></div>  
+<button id="show-more-btn">show more</button>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    let menuBox = document.getElementById("menuBox"); // Change to "menuBox" (capital B)
+let menuIcon = document.getElementById("menuIcon"); // Change to "menuIcon" (capital I)
+
+menuIcon.onclick = function () {
+    menuBox.classList.toggle("open-menu"); // Change to "menuBox" (capital B)
+
+    if (menuBox.classList.contains("open-menu")) {
+        menuIcon.src = "img/close.png";
+    } else {
+        menuIcon.src = "img/menu.png";
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ..............................................................................................
+
+
+
+const accessKey = "8hiVPzcJkYvnC_ORUJ4xQSA7c7omnompa6qaioxdcjQ";
+
+const searchForm = document.getElementById("search-form");
+const searchBox = document.getElementById("search-box"); 
+const searchResult = document.getElementById("search-result"); 
+const searchMoreBtn = document.getElementById("show-more-btn");
+
+let keyword = "";
+let page = 1;
+
+async function searchImages() {
+  keyword = searchBox.value;
+  const url = `https://api.unsplash.com/search/photos?page=${page}&query=${keyword}&client_id=${accessKey}&per_page=12`;
+
+
+    const response = await fetch(url);
+    const data = await response.json();
+    const results=data.results;
+    results.map((result)=>{
+        const image=document.createElement("img");
+        image.src=result.urls.small;
+        const imageLink=document.createElement("a");
+        imageLink.href=result.links.html;
+        imageLink.target="_blank";
+
+        imageLink.appendChild(image);
+        searchResult.appendChild(imageLink)
+    })
+    searchMoreBtn.style.display="block"
+
+
+}
+
+searchForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  page = 1;
+  searchImages();
+});
+
+searchMoreBtn.addEventListener("click",()=>{
+    page++;
+    searchImages();
+
+})
+
+
+
+// Call the searchImages function initially or when needed
+// You can add event listeners to other elements, like the "show-more-btn," to load more results.
+
+
+
+
+
+
+
+
+</script>
+
+
+<script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+<script>
+    var typed = new Typed('#element', {
+      strings: ['API', 'unsplash',],
+      typeSpeed: 50,
+      loop: true,
+    });
+  </script>
+</body>
+</html>
